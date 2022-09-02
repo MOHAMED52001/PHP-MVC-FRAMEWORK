@@ -1,0 +1,15 @@
+{
+    
+    "autoload": {
+        "psr-4": {
+            "app\\":"./"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mohamed Atef",
+            "email": "95093992+MOHAMED52001@users.noreply.github.com"
+        }
+    ],
+    "require": {}
+}
