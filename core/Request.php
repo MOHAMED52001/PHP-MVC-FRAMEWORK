@@ -5,7 +5,7 @@ namespace app\core;
 class Request
 {
 
-    public function getMethod()
+    public function method()
     {
         return strtolower($_SERVER['REQUEST_METHOD']);
     }
@@ -21,26 +21,31 @@ class Request
         return substr($path, 0, $pos);
     }
 
+    public function isGet()
+    {
+        return $this->method() == 'get';
+    }
+
+    public function isPost()
+    {
+        return $this->method() == 'get';
+    }
+
     public function getBody()
     {
         $body = [];
-        if ($this->getMethod() == 'get') {
+        if ($this->method() == 'get') {
             foreach ($_GET as $key => $value) {
-                $body[$key] = filter_input(INPUT_GET, $value, FILTER_SANITIZE_SPECIAL_CHARS);
+                $body[$key] = filter_input(INPUT_GET, $key, FILTER_SANITIZE_SPECIAL_CHARS);
             }
         }
 
-        if ($this->getMethod() == 'post') {
+        if ($this->method() == 'post') {
             foreach ($_POST as $key => $value) {
-                $body[$key] = filter_input(INPUT_POST , $value, FILTER_SANITIZE_SPECIAL_CHARS);
+                $body[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
             }
         }
 
         return $body;
     }
-
-
-
-
-
 }

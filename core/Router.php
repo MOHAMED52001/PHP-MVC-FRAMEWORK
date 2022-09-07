@@ -14,7 +14,8 @@ class Router
         $this->response = $res;
     }
 
-    public function post($path,$callback){
+    public function post($path, $callback)
+    {
         $this->routes['post'][$path] = $callback;
     }
 
@@ -26,29 +27,28 @@ class Router
     public function resolve()
     {
         $path = $this->request->getPath();
-        $method = $this->request->getMethod();
+        $method = $this->request->method();
         $callback = $this->routes[$method][$path] ?? false;
         if ($callback == false) {
             $this->response->setStatusCode(404);
             $layout = $this->layoutContent();
-            $view = $this->renderOnlyView('notfound',[]);
+            $view = $this->renderOnlyView('notfound', []);
             return str_replace("{{Content}}", $view, $layout);
-
         }
 
         if (is_string($callback)) {
             return $this->renderView($callback);
         }
         if (is_array($callback)) {
-            return call_user_func($callback,$this->request);
+            return call_user_func($callback, $this->request);
         }
         return call_user_func($callback);
     }
 
-    public function renderView($view,$params = [])
+    public function renderView($view, $params = [])
     {
         $layout = $this->layoutContent();
-        $view  = $this->renderOnlyView($view,$params);
+        $view  = $this->renderOnlyView($view, $params);
         return str_replace("{{Content}}", $view, $layout);
     }
 
@@ -59,9 +59,9 @@ class Router
         return ob_get_clean();
     }
 
-    protected function renderOnlyView($view,$params)
+    protected function renderOnlyView($view, $params)
     {
-        foreach($params as $key => $value){
+        foreach ($params as $key => $value) {
             $$key = $value;
         }
         ob_start();
